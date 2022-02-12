@@ -1,0 +1,60 @@
+name: "Build"
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.gitignore'
+      - '**/*.gitattributes'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.gitignore'
+      - '**/*.gitattributes'
+  workflow_dispatch:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.gitignore'
+      - '**/*.gitattributes'
+      
+jobs:
+  build:
+    name: Build 
+    runs-on: ubuntu-latest
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_NOLOGO: true
+      DOTNET_GENERATE_ASPNET_CERTIFICATE: false
+      DOTNET_ADD_GLOBAL_TOOLS_TO_PATH: false
+      DOTNET_MULTILEVEL_LOOKUP: 0
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1.8.1
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    # Run the tests, ideally should stop here if a fail and also publish results as artifacts
+    - name: Test
+      uses: zyborg/dotnet-tests-report@v1.4.4
+      with:
+        project_path: TestProject1/TestProject1.csproj
+        report_name: unit_tests
+        report_title: ClassLibrary8 Test Results
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        set_check_status_from_test_outcome: true
