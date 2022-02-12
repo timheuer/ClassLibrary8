@@ -57,4 +57,7 @@ jobs:
         report_name: unit_tests
         report_title: ClassLibrary8 Test Results
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        gist_name: classlib8_unit_tests.md
+        gist_badge_label: 'ClassLibrary8: %Counters_passed%/%Counters_total%'
+        gist_token: ${{ secrets.GIST_TOKEN }}
         set_check_status_from_test_outcome: true
