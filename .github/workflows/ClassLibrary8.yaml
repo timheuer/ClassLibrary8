@@ -51,6 +51,7 @@ jobs:
 
     # Run the tests, ideally should stop here if a fail and also publish results as artifacts
     - name: Test
+      id: test_step
       uses: zyborg/dotnet-tests-report@v1.4.4
       with:
         project_path: TestProject1/TestProject1.csproj
@@ -58,6 +59,8 @@ jobs:
         report_title: ClassLibrary8 Test Results
         github_token: ${{ secrets.GITHUB_TOKEN }}
         gist_name: classlib8_unit_tests.md
-        gist_badge_label: 'ClassLibrary8: %Counters_passed%/%Counters_total%'
         gist_token: ${{ secrets.GIST_TOKEN }}
         set_check_status_from_test_outcome: true
+
+    - name: Echo gist url
+      run: echo ${{ steps.test_step.outputs.gist_report_url }}
