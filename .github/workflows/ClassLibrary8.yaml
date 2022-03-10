@@ -57,4 +57,4 @@ jobs:
       if: success() || failure()
       with:
         name: testresults
-        path: '**/testresults.trx'
+        path: '**/*.testresults.trx'
