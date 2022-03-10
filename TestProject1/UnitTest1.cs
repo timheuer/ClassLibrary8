@@ -17,6 +17,6 @@ public class UnitTest1
     public void TestMethod2()
     {
         var c = new Class1();
-        Assert.IsFalse(7 == c.Add(1, 2));
+        Assert.IsFalse(c.Add(1, 2) == 7);
     }
 }
