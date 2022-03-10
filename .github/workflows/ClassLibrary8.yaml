@@ -50,11 +50,11 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Test
-      run: dotnet test --configuration Release --no-build --no-restore --logger "trx;LogFileName=testresults.trx" --results-directory "$GITHUB_WORKSPACE"
+      run: dotnet test --configuration Release --no-build --no-restore --logger "trx;LogFileName=testresults.trx"
 
     - name: Upload test results
       uses: actions/upload-artifact@v1
       if: success() || failure()
       with:
         name: testresults
-        path: '**/*.testresults.trx'
+        path: '**/testresults.trx'
